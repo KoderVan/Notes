@@ -1,0 +1,17 @@
+{% extends "pages/base.html" %}
+
+{% block title%}
+Login here
+{% endblock %}
+
+
+{% block content%}
+<body xmlns="http://www.w3.org/1999/html">
+    <form method="POST" class="from-group" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" class="btn btn-success" value="login">
+        <p>Don`t have an account? Create one <a href="/sign_up">here</a></p>
+    </form>
+</body>
+{% endblock %}
