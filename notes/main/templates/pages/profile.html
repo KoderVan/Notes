@@ -1,0 +1,43 @@
+{% csrf_token %}
+<style>
+    .logout_button {
+    position: absolute;
+    top: 20px;
+    left: 1500px;
+    font-weight:bold;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    display: inline-block
+    }
+    .button-my_notes {
+    position: absolute;
+    top: 20px;
+    left: 1300px;
+    font-weight:bold;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    display: inline-block
+    }
+</style>
+<form action="." method="POST">
+    {% csrf_token %}
+    <div id="header">
+    {% if request.user.is_authenticated %}
+        <span class="user">
+            {% if request.user.is_authenticated %}
+                Привет {{ request.user.first_name }}
+            {% else %}
+                <a href="/login">Log in</a>
+            {% endif %}
+    {% endif %}
+        </span>
+    </div>
+    <div class="logout_button">
+        <a href="/logged_out">Выйти</a>
+    </div>
+    <div class="button-my_notes">
+        <a href="/notes">Мои заметки</a>
+    </div>
+</form>
