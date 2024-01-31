@@ -57,7 +57,7 @@
 <body>
         <div class="container">
             <h1>Создать новую заметку</h1>
-            <form action="/submit-note/" method="post">
+            <form action="." method="post">
                 {% csrf_token %}
                 <input type="text" name="title" placeholder="Название заметки" required>
                 <textarea name="content" placeholder="Опишите свою заметку здесь" required></textarea>

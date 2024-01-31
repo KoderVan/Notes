@@ -2,9 +2,9 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import UserRegistrationForm, LoginForm, CreateNewNote, ProfileForm
+from .forms import UserRegistrationForm, LoginForm, ProfileForm
 from django.contrib.auth.decorators import login_required, permission_required
-from .models import Notes, Profile
+from .models import Profile
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -22,7 +22,7 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return render(request, "pages/profile.html", {})
+                    return redirect('profile')
                 else:
                     return HttpResponse('Disabled account')
             else:
@@ -44,44 +44,19 @@ def profile_view(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            return redirect("notes")
+            return redirect("profile")
     else:
         form = ProfileForm
         if 'username' in request.GET:
             username = request.GET['username']
             return redirect(f'/profile{username}')
-        else:
-            return render(request, "pages/notes.html", {'form':form})
+        return render(request, "pages/profile.html", {'form':form})
 
 
 @login_required
-def user_profile(request, username):
-    user = User.objects.get(username=username)
-    profile = user.profile
-    return render(request, "pages/notes.html", {'profile':profile})
-
-
-@login_required(login_url="login/")
-def notes(request):
-    note = Notes
-    template_name = "pages/notes.html"
-    return render(request, template_name, {note:"note"})
-
-
-@login_required(login_url="login/")
-def create_note(request):
-    # if request.method == 'POST':
-    #     create_form = CreateNewNote(request.POST)
-    # if create_form.is_valid():
-    #     name = create_form.cleaned_data["name"]
-    #     text = Notes(name=name)
-    #     text.save()
-    #     request.user.Note.add(text)
-    #     return HttpResponseRedirect("/notes")
-    #
-    # else:
-    #     form = CreateNewNote()
-    return render(request, "pages/create_note.html", {})
+def user_profile(request):
+    user = User.objects.get
+    return render(request, "pages/notes.html", {'user':user})
 
 
 def sign_up(request):
@@ -95,7 +70,6 @@ def sign_up(request):
             # Save the User object
             new_user.save()
             # Create the user profile
-            profile = Profile.objects.create(user=new_user)
             return render(request, 'pages/profile.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()

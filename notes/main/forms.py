@@ -30,11 +30,6 @@ class ProfileForm(forms.ModelForm):
         fields = ['date_of_birth']
 
 
-class CreateNewNote(forms.Form):
-    note = forms.CharField(label="Name", max_length=100)
-    text = forms.CharField(max_length=300)
-
-
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
