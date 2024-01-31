@@ -1,2 +1,4 @@
-venv
-venv/
+**venv/
+**__pycache__/
+**.idea/
+notes/db.sqlite3
